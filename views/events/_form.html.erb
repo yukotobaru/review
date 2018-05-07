@@ -1,0 +1,141 @@
+<style type="text/css">
+body{color:darkgray;font-size:8pt;margin:10px 20px;}
+h1{color:darkgray;font-size:12pt;margin:10px 0px;}
+table{
+    width: 100%;
+    border-collapse: collapse;    
+    border: 1px solid #336699;
+    /*background: #909090;*/
+    table-layout: fixed;
+    bordercolor:#3CB371
+}
+ 
+td{
+    border: 1px solid #336699;
+    padding: 0px;
+	text-align: left;
+    background:#ffffff;
+    color:#000000;
+    bordercolor:#3CB371
+}
+ 
+tr,th{
+    background: #CBFFD3;
+    color:#3CB371;
+    bordercolor:#3CB371
+}
+
+
+.footer, .push {
+    height: 80px; /* .push must be the same height as .footer */
+}
+.fieldset{font-size:10pt;}
+p{color:red}
+.calendar td { height: 100px; width: 14.28%; }
+.simple-calendar {
+  .day {}
+
+  .wday-0 {}
+  .wday-1 {}
+  .wday-2 {}
+  .wday-3 {}
+  .wday-4 {}
+  .wday-5 {}
+  .wday-6 {}
+
+  .today {}
+  .past {}
+  .future {}
+
+  .start-date {}
+
+  .prev-month {}
+  .next-month { }
+  .current-month {}
+
+  .has-events {}
+}
+.parent {
+ width: 100%;
+ display: flex;
+}
+.child {
+ display: inline-block;
+}
+.sample{
+     display: inline-block;
+}
+
+</style>
+<p id="notice"><%= notice %></p>
+<%= form_for(event) do |f| %>
+  <% if event.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(event.errors.count, "error") %> prohibited this event from being saved:</h2>
+
+      <ul>
+      <% event.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="parent"><div class="child">
+<table class="table table-striped" style="width: 60%"; >  
+<tr ><th style="width: 10%";>
+    <%= f.label :開始日時 %></th><td style="width: 20%";>
+    
+   <%= f.datetime_field :start_time , :class => 'form-control'%>
+   
+    </td>
+<th  style="width: 10%";>
+    <%= f.label :終了日時 %></th><td  style="width: 20%";>
+    <%= f.datetime_field :end_time , :class => 'form-control'%>
+ </td>
+ <th  style="width: 10%";><%= f.label :部門 %></th><td >
+  <%= select_tag :Applysection_id, options_from_collection_for_select(@Applysection, "id", "applysectionname",selected: @Applysection_id,  :disabled => true),:class => "form-control select searchable"%></td>
+ 
+ 
+<tr>
+<th  style="width: 10%";><%= f.label :物件名 %></th><td colspan=3;>
+   <%= f.collection_select :PjMaster_id, PjMaster.all, :id, :PJname, {} ,{:class => "form-control select searchable"} %></td>
+    <th  style="width: 10%";><%= f.label :担当者 %></th><td  style="width: 20%";>
+   <%= f.collection_select :Member_id, @members, :id, :membername, {} ,{:class => "form-control select searchable"} %></td>
+    
+   
+</tr>
+<th>
+    <%= f.label :作業分類 %></th><td >
+     <%= f.collection_select :Fsesagyo_id, Fsesagyo.all, :id, :fsesagyoname, {} ,{:class => "form-control select searchable"} %></td>
+     <th style="width: 10%";>
+    <%= f.label :工数 %></th><td >
+    <%= f.number_field :kosu , :class => 'form-control', step: :any%></td>
+<th>
+    <%= f.label :コメント %></th><td >
+    <%= f.text_field :name , :class => 'form-control'%></td>
+    
+   
+    </tr>
+ </table>
+   <% @start_date = f.object.start_time %>
+  <div class="actions">
+
+    <div class="child">
+    <%= f.submit '登録する' , :class => 'btn btn-primary btn-sm' , remote: true %> 
+    
+    <% @del = f.object.id %>
+<% end %>
+</div>
+ <div class="child">
+<% if @del.present?  %>
+    <%= button_to "削除する", { :action => "destroy", :id =>@del }, :confirm => "本当に削除しますか?", :method => :delete , :class => 'btn btn-primary btn-sm' , remote: true %>
+<% end %></div></div>
+  <div id="events_calendar">
+  <%= render partial: "calendar", locals: {events: @eventsall} %>
+</div>
+  
+  
+  
+  
+
+

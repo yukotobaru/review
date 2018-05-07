@@ -1,0 +1,23 @@
+<%= month_calendar events: events, previous_link: events_ajax_previous_link, next_link: events_ajax_next_link do |day, events| %>
+<%= content_tag :div, class: "calendar-day", data: {date: day} do %>
+    
+<%= link_to day, new_event_path(:start_time => day,:end_time => day,:Member_id =>@Member_id,:PjMaster_id =>@PjMaster_id, :Applysection_id =>@Applysection_id,:start_date => day) %>
+
+    <% events.each do |event| %>
+    <div>
+      <% @s=event.start_time.strftime('%H:%M') %>
+      <% if event.end_time.nil? %>
+      <% event.end_time = event.start_time %>
+      <% end %>
+     
+      <% @e=event.end_time.strftime('%H:%M ') %>
+      <%= @s %>-<%= @e %>
+       <%= link_to event.Fsesagyo.fsesagyoname, edit_event_path(@events,:id => event.id,:Member_id =>@Member_id,:PjMaster_id =>@PjMaster_id, :Applysection_id =>@Applysection_id,:start_date => day) %>
+        
+        <%= event.Member.membername %>
+       <%= event.kosu %>
+    </div>
+  <% end %>
+
+  <% end %>
+<% end %>

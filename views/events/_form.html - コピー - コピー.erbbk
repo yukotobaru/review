@@ -1,0 +1,112 @@
+<style type="text/css">
+body{color:darkgray;font-size:8pt;margin:10px 20px;}
+h1{color:darkgray;font-size:12pt;margin:10px 0px;}
+table {
+    width: 60%;}
+table tr th{
+    background: #909090;
+    color:#f6f6f6;
+    padding:3px;
+    font-size:8pt;
+    font-weight: bold;
+}
+
+table tr td{
+    background: f6f6f6;
+    color:#909090;
+    padding:2px 6px;
+    font-size:8pt;
+}
+.footer, .push {
+    height: 80px; /* .push must be the same height as .footer */
+}
+.fieldset{font-size:10pt;}
+p{color:red}
+.simple-calendar {
+  .day {}
+
+  .wday-0 {}
+  .wday-1 {}
+  .wday-2 {}
+  .wday-3 {}
+  .wday-4 {}
+  .wday-5 {}
+  .wday-6 {}
+
+  .today {}
+  .past {}
+  .future {}
+
+  .start-date {}
+
+  .prev-month {}
+  .next-month { }
+  .current-month {}
+
+  .has-events {}
+}
+</style>
+<%= form_for(event) do |f| %>
+  <% if event.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(event.errors.count, "error") %> prohibited this event from being saved:</h2>
+
+      <ul>
+      <% event.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+<%= calendar number_of_days: 1 do |day, events| %>
+<%= content_tag :div, class: "calendar-day", data: {date: day} do %>
+    <%= day %>
+ 
+
+  <% events.each do |event| %>
+    <div>
+      <% @s= event.start_time.strftime('%H:%M-')  %>
+      <% @e= event.end_time.strftime('%H:%M')  %>
+      <%= @s %><%= @e %>
+      <%= event.name %>
+    </div>
+  <% end %>
+<% end %><% end %>
+
+<%= month_calendar events: @eventsall do |day, events| %>
+<%= content_tag :div, class: "calendar-day", data: {date: day} do %>
+    <%= day %>
+ 
+
+  <% events.each do |event| %>
+    <div>
+      <% @s= event.start_time.strftime('%H:%M-')  %>
+      <% @e= event.end_time.strftime('%H:%M')  %>
+      <%= @s %><%= @e %>
+      <%= event.name %>
+    </div>
+  <% end %>
+<% end %><% end %>
+
+
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :start_time %>
+    <%= f.datetime_select :start_time %>
+  </div>
+
+  <div class="field">
+    <%= f.label :end_time %>
+    <%= f.datetime_select :end_time %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+
+<% end %>

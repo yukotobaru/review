@@ -1,0 +1,49 @@
+<style type="text/css">
+body{color:darkgray;font-size:8pt;margin:10px 20px;}
+h1{color:darkgray;font-size:12pt;margin:10px 0px;}
+table {
+    width: 60%;}
+table tr th{
+    background: #909090;
+    color:#f6f6f6;
+    padding:3px;
+    font-size:8pt;
+    font-weight: bold;
+}
+
+table tr td{
+    background: f6f6f6;
+    color:#909090;
+    padding:2px 6px;
+    font-size:8pt;
+}
+.footer, .push {
+    height: 80px; /* .push must be the same height as .footer */
+}
+.fieldset{font-size:10pt;}
+p{color:red}
+</style>
+<h1>作業予定</h1>
+
+
+
+<br>
+
+<%= month_calendar events: @events do |day, events| %>
+<%= content_tag :div, class: "calendar-day", data: {date: day} do %>
+    <%= day %>
+ 
+
+  <% events.each do |event| %>
+    <div>
+      <% @s= event.start_time.strftime('%H:%M-')  %>
+      <% @e= event.end_time.strftime('%H:%M')  %>
+      <%= @s %><%= @e %>
+      <%= link_to event.name, edit_event_path(@events,:id => event.id) %>
+      
+  </div>
+  <% end %>
+<% end %><% end %>
+
+
+<%= link_to 'New Event', new_event_path %>

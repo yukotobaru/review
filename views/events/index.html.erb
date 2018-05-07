@@ -1,0 +1,100 @@
+<style type="text/css">
+body{color:darkgray;font-size:8pt;margin:10px 20px;}
+h1{color:darkgray;font-size:12pt;margin:10px 0px;}
+table{
+    width: 100%;
+    border-collapse: collapse;    
+    
+    /*background: #909090;*/
+    table-layout: fixed;
+    bordercolor:#3CB371
+}
+ 
+td{
+    
+    padding: 0px;
+	text-align: left;
+    background:#ffffff;
+    color:#000000;
+    bordercolor:#3CB371
+}
+ 
+tr,th{
+    background: #CBFFD3;
+    color:#3CB371;
+    bordercolor:#3CB371
+}
+
+
+.footer, .push {
+    height: 80px; /* .push must be the same height as .footer */
+}
+.fieldset{font-size:10pt;}
+p{color:red}
+.calendar td { height: 100px; width: 14.28%; }
+.simple-calendar {
+  .day {}
+
+  .wday-0 {}
+  .wday-1 {}
+  .wday-2 {}
+  .wday-3 {}
+  .wday-4 {}
+  .wday-5 {}
+  .wday-6 {}
+
+  .today {}
+  .past {}
+  .future {}
+
+  .start-date {}
+
+  .prev-month {}
+  .next-month { }
+  .current-month {}
+
+  .has-events {}
+}
+.parent {
+ width: 100%;
+ display: flex;
+}
+.child {
+ display: inline-block;
+}
+.sample{
+     display: inline-block;
+}
+
+</style>
+<p id="notice"><%= notice %></p>
+
+<h1>スケジュール</h1>
+<hr>
+<%= form_tag(events_path, method:"get", remote: true) do %>
+
+<table class="table" style="width:70%">
+<tr>
+<th  style="width:10%";>物件</th>
+<td style="width:20%";><%= select_tag :PjMaster_id, options_from_collection_for_select(PjMaster.all, "id", "PJname",selected: @PjMaster_id),:class => "form-control select searchable"%></td>
+
+<th  style="width:10%";>部門</th>
+<td style="width:20%";><%= select_tag :Applysection_id, options_from_collection_for_select(Applysection.all, "id", "applysectionname",selected: @Applysection_id),:class => "form-control select searchable"%></td>
+
+<th  style="width:10%";>担当者</th>
+<td style="width:20%";><%= select_tag :Member_id, options_from_collection_for_select(Member.all, "id", "membername",selected: @Member_id),:class => "form-control select searchable"%></td>
+<td>
+</tr>
+
+</tr>
+<% end %>
+</table>
+</form>
+<div id="events_calendar">
+  <%= render partial: "calendar", locals: {events: @events} %>
+</div>
+
+
+<br>
+
+
